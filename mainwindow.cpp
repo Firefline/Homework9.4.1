@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 
+int pumpValue = 0;
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -39,16 +41,19 @@ void MainWindow::on_pressureButton_clicked()
 {
     if (ui->value10->isChecked())
     {
-        ui->pressureProgress->setValue(ui->pressureProgress->value()+10);
+        ui->pressureProgress->setValue(pumpValue+10);
+        pumpValue += 10;
     }
     else
     {
-        ui->pressureProgress->setValue(ui->pressureProgress->value()+20);
+        ui->pressureProgress->setValue(pumpValue+20);
+        pumpValue += 20;
     }
     ui->logView->append("Увеличение давления...");
-    if (ui->pressureProgress->value()>=100)
+    if (pumpValue>100)
     {
         ui->pressureProgress->setValue(0);
+        pumpValue = 0;
         ui->logView->clear();
         ui->logView->append("Достигнуто максимальное давление. Очистка завершена.");
         ui->logView->append("Сброс давления...");
